@@ -256,7 +256,7 @@ const PlayVideo = ({
       <OffCanvasMenu isDarkMode={isDarkMode} onToggleDarkMode={handleToggleDarkMode} />
       <div className="container-fluid">
         <div className="row">
-          <div className="col-10">
+          <div className="col-9">
             <MainVideoSection
               video={video}
               removeVideo={removeVideo}
@@ -274,7 +274,7 @@ const PlayVideo = ({
               currentUser={currentUser}
             />
           </div>
-          <div className="col-2">
+          <div className="col-3">
             <RecommendedVideos recommendedVideos={recommendedVideos} currentUser={currentUser} />
           </div>
         </div>
