@@ -84,23 +84,23 @@ The TCP server is an integral component of the YouTube platform, responsible for
    npm start
 
 
-## Working Process
+### Working Process
 
-### Web Project
+#### Web Project
 - **Task Assignment**: Each team member was assigned distinct pages to create, focusing on both design and implementation of the required logic.
 - **Design Implementation**: User interfaces were designed to be intuitive and visually appealing.
 - **Logical Infrastructure**: Context API was used for state management, gathering data for each component.
 - **Coordination and Integration**: Team members coordinated to ensure compatibility and cohesion, integrating components into a seamless website.
 - **Testing and Refinement**: After combining all components, thorough testing was conducted, followed by refinements based on feedback.
 
-### Android Project
+#### Android Project
 - **Task Assignment**: Modules like video playback, user management, and community interactions were divided among team members.
 - **Design Implementation**: Mobile-specific designs were implemented to ensure an intuitive and user-friendly interface.
 - **Logical Infrastructure**: Android architecture components were used for robust state management.
 - **Coordination and Integration**: Regular synchronization ensured seamless integration into the mobile app.
 - **Testing and Refinement**: Comprehensive testing across devices ensured smooth and bug-free performance.
 
-### Server-Side Project
+#### Server-Side Project
 - **Task Assignment**: Specific tasks such as user authentication, video management, or comments handling were assigned to team members.
 - **Implementation**: Backend logic was implemented using Express.js and MongoDB, focusing on scalability and performance.
 - **Integration**: RESTful APIs were created for seamless communication between the backend and frontend.
@@ -131,7 +131,6 @@ The Android application followed the MVVM (Model-View-ViewModel) architectural p
 
 This structured approach allowed us to create a scalable and robust Android application, ensuring high-quality code and a smooth user experience.
 
-
 ## Server-Side Development Approach
 
 The server-side of the ViewTube platform was developed using the MVC (Model-View-Controller) architectural pattern, ensuring a clean separation of concerns and a structured codebase. This pattern helped us maintain the clarity and scalability of the backend code.
@@ -146,5 +145,4 @@ We designed the server-side application to expose RESTful APIs, which enabled se
 
 - **CRUD Operations**: Handled via RESTful routes for managing videos, comments, and user data.
 - **Authentication**: Secure API endpoints using JWT for token-based authentication.
-- **File Handling**: APIs for video file uploads and thumbnail storage, managed via RESTful endpoints.  
-
+- **File Handling**: APIs for video file uploads and thumbnail storage, managed via RESTful endpoints.
