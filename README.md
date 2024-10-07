@@ -64,26 +64,6 @@ The TCP server is an integral component of the YouTube platform, responsible for
 - **Socket Programming**: Uses sockets for client-server communication.
 - **Signal Handling**: Implements graceful server shutdown using SIGINT signal.
 
-## Installation and Setup
-
-### Web Project
-
-#### Prerequisites
-- **Node.js** (version 14.x or later)
-- **npm** (Node Package Manager)
-
-#### Installation
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/HodayaBarak/YouTube-project.git
-   cd YouTube-project
-   npm install
-
-2. **Run the Server**:
-  ```bash
-   npm start
-
-
 ### Working Process
 
 #### Web Project
@@ -146,3 +126,64 @@ We designed the server-side application to expose RESTful APIs, which enabled se
 - **CRUD Operations**: Handled via RESTful routes for managing videos, comments, and user data.
 - **Authentication**: Secure API endpoints using JWT for token-based authentication.
 - **File Handling**: APIs for video file uploads and thumbnail storage, managed via RESTful endpoints.
+
+
+## Installation and Setup
+
+### Web Project
+
+#### Prerequisites
+- **Node.js** (version 14.x or later)
+- **npm** (Node Package Manager)
+
+#### Installation
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/HodayaBarak/YouTube-project/youtube
+   cd youtube
+   npm install
+
+2. **Run the Application**:
+   ```bash
+   npm start
+   ```
+
+### Android Project
+
+#### Prerequisites
+- **Android Studio** (version 4.0 or later)
+- **Android device or emulator** running API level 26 (Oreo) or higher
+
+#### Installation
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Guyrose1998/YouTube_android
+   ```
+
+2. **Open and Run the Project**:
+   - Open Android Studio.
+   - Import the project you just cloned.
+   - Build the project and run it on your Android device or emulator.
+
+### Server-Side Project
+
+#### Prerequisites
+- **Node.js** (version 14.x or later)
+- **npm** (Node Package Manager)
+- **MongoDB** (connection string provided in environment variables)
+
+#### Installation
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/ofekbaribi/ViewTube-Server
+   cd ViewTube-Server
+   npm install
+   ```
+
+2. **Run the Server**:
+   ```bash
+   npm start
+   ```
+
+
+
