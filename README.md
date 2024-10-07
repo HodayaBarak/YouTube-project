@@ -175,14 +175,14 @@ We designed the server-side application to expose RESTful APIs, which enabled se
 #### Installation
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/ofekbaribi/ViewTube-Server
-   cd ViewTube-Server
+   git clone https://github.com/zivole/Server_youtube
+   cd Server_youtube
    npm install
    ```
 
 2. **Run the Server**:
    ```bash
-   npm start
+   node server.js
    ```
 
 
