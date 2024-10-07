@@ -8,7 +8,7 @@
 .video-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the video player */
+    align-items:flex-start /* Center the video player */
 }
 
 .video-wrapper {
@@ -99,26 +99,85 @@ hr.my-3 {
     margin-bottom: 1rem;
 }
 
-.recommended {
-    padding: 10px;
+/* .recommended {
+   padding-right: 15px;
+   align-items: center;
+   width: 100%;
+
+
 }
 
-.list-group-item {
-    display: flex;
+
+/*     border: 1px solid #ddd;
     align-items: flex-start;
+
+ */
+/* .list-group-item {
+    display: flex;
+    align-items: center;
     padding: 10px;
     width: 100%;
-    border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s, box-shadow 0.2s;
     margin-bottom: 10px;
-}
+} */
 
-.list-group-item:hover {
+/* .list-group-item:hover {
     background-color: #f5f5f5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+} */ 
+
+.recommended {
+    padding: 0; /* Remove padding around the list */
+    width: 100%; /* Full width for the container */
 }
+
+.list-group-item {
+    display: flex; /* Use flexbox to align items */
+    align-items: flex-start; /* Align items to the top */
+    padding: 10px; /* Add padding for space around items */
+    width: 100%; /* Full width for each item */
+    border: none; /* No border between items */
+    margin-bottom: 10px; /* Space below each item */
+    background-color: #fff; /* Background color for items */
+    cursor: pointer; /* Change cursor to indicate clickable items */
+}
+
+.list-group-item img {
+    width: 120px; /* Set a larger width for thumbnails */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 0px; /* Match rounded corners */
+    margin-right: 15px; /* Space between image and text */
+}
+
+.list-group-item .content {
+    flex: 1; /* Allow content to take the remaining space */
+    display: flex; /* Use flexbox for the content */
+    flex-direction: column; /* Stack text elements vertically */
+    align-items: flex-start; /* Align text to the left */
+}
+
+.list-group-item .title {
+    font-size: 16px; /* Font size for the title */
+    font-weight: bold; /* Bold for emphasis */
+    margin: 5px 0; /* Margin above and below title */
+    white-space: normal; /* Allow wrapping of long titles */
+}
+
+.list-group-item .views,
+.list-group-item .date {
+    font-size: 14px; /* Smaller font size for views and date */
+    color: #6c757d; /* Light color for secondary text */
+    margin: 0; /* No margin for alignment */
+}
+
+/* Add a margin to separate views and date */
+.list-group-item .views {
+    margin-bottom: 5px; /* Space between views and date */
+}
+
+
 
 .thumbnail-image {
     width: 120px;
@@ -127,7 +186,7 @@ hr.my-3 {
     object-fit: cover;
 }
 
-.video-info {
+/* .video-info {
     flex: 1;
     overflow: hidden;
 }
@@ -149,6 +208,43 @@ hr.my-3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.video-info p:first-of-type {
+    margin-top: 5px;
+}
+
+.video-info p:last-of-type {
+    margin-top: 2px;
+} */
+
+
+
+.video-info {
+    flex: 1;
+    overflow: hidden;
+    text-align: left; /* Align text to the left */
+}
+
+.video-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left; /* Ensure heading is also left-aligned */
+}
+
+.video-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left; /* Ensure paragraph text is left-aligned */
 }
 
 .video-info p:first-of-type {
