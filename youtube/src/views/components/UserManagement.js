@@ -54,22 +54,30 @@ const UserManagement = ({ isDarkMode, handleToggleDarkMode, handleSearch, isAuth
         addVideo={addVideo}
       />
       <OffCanvasMenu isDarkMode={isDarkModeLocal} onToggleDarkMode={handleToggleDarkMode} />
-      <div className="user-managment-container container-fluid">
-        <div className="row text-center my-4">
-          <div className="col-12">
-            <img src={userDetails.image} alt="User" className="user-image" />
-            <h2>{userDetails.firstName} {userDetails.lastName} videos:</h2>
-          </div>
+<div className="user-managment-container container-fluid">
+    <div className="row text-center my-4 userDetails">
+        <div className="col-12 d-flex align-items-center">
+            <img src={userDetails.image} alt="User" className="userImage" />
+            <div className="userInfo">
+                <h2 className="userName"> {userDetails.firstName} {userDetails.lastName} </h2>
+                <h3 className="userDetailsText">
+                    @{userDetails.username} &bull; {filteredVideos.length} videos
+                </h3>
+            </div>
         </div>
-        <div className="row">
-          <div className="col">
+    </div>
+    <hr className="separator" />
+    <div className="row">
+        <div className="col">
             <VideoGridUser
-              isDarkMode={isDarkModeLocal}
-              videos={filteredVideos}
+                isDarkMode={isDarkModeLocal}
+                videos={filteredVideos}
             />
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+
+
     </div>
   );
 };
