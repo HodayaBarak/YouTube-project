@@ -46,7 +46,6 @@ async function getRecommendedVideos(req, res) {
         // If there is no logged-in user, return the 10 most popular videos by view count
         if (!userID) {
             console.log('No user logged in, returning top 10 most popular videos');
-
             const popularVideos = await Video.find({ _id: { $ne: videoID } })  // Exclude the current video
                 .sort({ views: -1 })
                 .limit(10);  // Fetch top 10 most popular videos excluding the current video
@@ -67,7 +66,7 @@ async function getRecommendedVideos(req, res) {
                 if (videoId.trim() !== videoID) {
                     let video = await Video.findById(videoId.trim());  // Fetch video details from DB (ensure to trim the ID)
                     if (video) {
-                        videosRec.add(video);  // Add video to the set
+                        videosRec.add(video._id.toString());  // Add only the video ID to the set to ensure uniqueness
                     }
                 }
             }
@@ -77,8 +76,8 @@ async function getRecommendedVideos(req, res) {
 
         console.log('Accessing video recommendations...');
 
-        // Convert Set to an Array to sort by view count
-        let videosArray = Array.from(videosRec);
+        // Fetch the video details based on unique video IDs in the set, excluding the current video
+        let videosArray = await Video.find({ _id: { $in: Array.from(videosRec), $ne: videoID } });
 
         // If the list contains more than 10 videos, return only the top 10 most popular videos
         if (videosArray.length > 10) {
@@ -92,10 +91,15 @@ async function getRecommendedVideos(req, res) {
         // If there are fewer than 6 recommended videos, add random videos to reach 6
         if (videosArray.length < 6) {
             const randomVideos = await Video.aggregate([
-                { $match: { _id: { $ne: videoID } } },  // Ensure current video is excluded
+                { $match: { _id: { $ne: videoID, $nin: Array.from(videosRec) } } },  // Exclude current video and already recommended videos
                 { $sample: { size: 6 - videosArray.length } }
             ]);  // Fetch random videos from DB excluding the current video
-            videosArray = videosArray.concat(randomVideos);  // Add random videos to the list
+
+            // Filter out any duplicate video IDs before adding random videos to the final array
+            const uniqueRandomVideos = randomVideos.filter(video => !videosRec.has(video._id.toString()));
+
+            // Add random videos to the array, ensuring no duplicates
+            videosArray = videosArray.concat(uniqueRandomVideos);
         }
 
         res.status(200).json(videosArray);  // Return the final sorted list of videos
@@ -104,7 +108,6 @@ async function getRecommendedVideos(req, res) {
         res.status(404).send('Error fetching recommendations');
     }
 }
-
 
 
 
