@@ -25,6 +25,22 @@ These files define the `User` class, which represents individual users in the sy
 ### 3. `VideoRecommendationSystem.cpp` and `VideoRecommendationSystem.h`
 These files define the `VideoRecommendationSystem` class, which contains the logic for generating video recommendations. The system analyzes user history, identifies popular videos, and suggests content watched by users with similar interests.
 
+## Running the Server
+
+The server can be run either on:
+
+### 1. A Virtual Machine
+Ensure the virtual machine is set up with a C++ compiler and necessary libraries. You can SSH into the virtual machine and compile and run the server from the terminal.
+
+### 2. WSL (Windows Subsystem for Linux) in Visual Studio
+If you're developing on Windows, you can use WSL with Visual Studio to build and run the server. To do this:
+
+- Install WSL and a Linux distribution (e.g., Ubuntu).
+- Open Visual Studio, and configure your project to use the WSL environment.
+- Use Visual Studio to build and debug the server as you would in a Linux terminal.
+
+This flexibility allows you to develop in a Linux-like environment even when working on Windows.
+
 ## How to Compile
 
 To compile the project, you need a C++ compiler (e.g., `g++`).
@@ -34,9 +50,10 @@ To compile the project, you need a C++ compiler (e.g., `g++`).
 1. Open a terminal and navigate to the project directory.
 2. Use the following command to compile the project:
    ```bash
-   g++ -std=c++11 -pthread main.cpp User.cpp VideoRecommendationSystem.cpp -o tcp_server
-3. This command compiles main.cpp, User.cpp, and VideoRecommendationSystem.cpp, linking the necessary threading libraries.
+   g++ -std=c++11 -pthread main.cpp User.cpp VideoRecommendationSystem.cpp -o server
+
+3. This command compiles `main.cpp`, `User.cpp`, and `VideoRecommendationSystem.cpp`, linking the necessary threading libraries.
 
 4. After successful compilation, run the server using:
-     ```bash
-     ./tcp_server   
+   ```bash
+   ./server
