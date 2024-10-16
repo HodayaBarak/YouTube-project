@@ -92,7 +92,7 @@ async function getRecommendedVideos(req, res) {
         if (videosArray.length < 6) {
             const randomVideos = await Video.aggregate([
                 { $match: { _id: { $ne: videoID, $nin: Array.from(videosRec) } } },  // Exclude current video and already recommended videos
-                { $sample: { size: 6 - videosArray.length } }
+                { $sample: { size: 7 - videosArray.length } }
             ]);  // Fetch random videos from DB excluding the current video
 
             // Filter out any duplicate video IDs before adding random videos to the final array
