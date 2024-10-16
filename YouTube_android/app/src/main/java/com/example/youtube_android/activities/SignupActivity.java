@@ -53,6 +53,7 @@ public class SignupActivity extends AppCompatActivity {
     private String currentPhotoPath;
     private UsersViewModel usersViewModel;
     private String imageBase64;
+    private  String userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
                             user,
                             passwordStr,
                             confirmPasswordStr,
-                            imageBase64
+                            userImage
                     );
 
                     usersViewModel.signUp(signUpRequest);
@@ -211,12 +212,14 @@ public class SignupActivity extends AppCompatActivity {
             storageDir.mkdirs();
         }
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String base64String = "data:image/jpeg;base64,";
         String imageFileName = "JPEG_" + timeStamp + ".jpg";
         File imageFile = new File(storageDir, imageFileName);
         try (FileOutputStream out = new FileOutputStream(imageFile)) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             currentPhotoPath = imageFile.getAbsolutePath();
             imageBase64 = convertToBase64(bitmap); // Convert image to Base64
+            userImage = base64String + imageBase64;
         } catch (IOException e) {
             e.printStackTrace();
         }
