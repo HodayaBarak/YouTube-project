@@ -122,6 +122,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                                 Intent homeIntent = new Intent(UploadVideoActivity.this, HomeActivity.class);
                                 homeIntent.putExtra("username", username);
                                 homeIntent.putExtra("token", token);
+                                homeIntent.putExtra("currentUser", currentUser);
                                 startActivity(homeIntent);
                                 finish();
                             }
@@ -158,12 +159,42 @@ public class UploadVideoActivity extends AppCompatActivity {
         }
     }
 
+//    private File createFileFromUri(Uri uri, Context context, String title) {
+//        // Sanitize the title to create a valid file name
+//        String sanitizedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "").replace(" ", "_");
+//
+//        // Create the file with the sanitized title as part of the name
+//        File outputFile = new File(context.getCacheDir(), sanitizedTitle + ".mp4");
+//        try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
+//             FileOutputStream fos = new FileOutputStream(outputFile)) {
+//
+//            byte[] buf = new byte[8192];
+//            int bytesRead;
+//            while ((bytesRead = inputStream.read(buf)) > 0) {
+//                fos.write(buf, 0, bytesRead);
+//            }
+//        } catch (Exception e) {
+//            Log.e("VideoCreation", "Error creating video file", e);
+//            return null;
+//        }
+//        Log.i("VideoCreation", "File created at " + outputFile.getAbsolutePath());
+//        return outputFile;
+//    }
+
+
+
     private File createFileFromUri(Uri uri, Context context, String title) {
         // Sanitize the title to create a valid file name
         String sanitizedTitle = title.replaceAll("[^a-zA-Z0-9\\s]", "").replace(" ", "_");
 
+        // Ensure the uploads directory exists
+        File directory = new File(context.getFilesDir(), "uploads");
+        if (!directory.exists()) {
+            directory.mkdirs();  // Create the directory if it doesn't exist
+        }
+
         // Create the file with the sanitized title as part of the name
-        File outputFile = new File(context.getCacheDir(), sanitizedTitle + ".mp4");
+        File outputFile = new File(directory, sanitizedTitle + ".mp4");
         try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
              FileOutputStream fos = new FileOutputStream(outputFile)) {
 
@@ -180,15 +211,83 @@ public class UploadVideoActivity extends AppCompatActivity {
         return outputFile;
     }
 
+
     // Utility function to convert UUID to ObjectId
     private String convertUUIDToObjectId(String uuid) {
         // Remove dashes and take the first 24 characters (a simple, but not ideal, approach)
         return uuid.replace("-", "").substring(0, 24);
     }
 
+    // Method to extract the title from the original file path
+    public static String getTitleFromPath(String path) {
+        // Extract the file name (the part after the last backslash)
+        String fileName = path.substring(path.lastIndexOf("\\") + 1);
+
+        // Find the last dash and extract the part after it
+        int lastDashIndex = fileName.lastIndexOf('-');
+        if (lastDashIndex != -1) {
+            return fileName.substring(lastDashIndex + 1); // Return the part after the dash
+        } else {
+            return fileName; // If no dash is found, return the original file name
+        }
+    }
+
+//    private void createVideoItemFromFile(Context context, String title, Uri uri, VideoItemCreationCallback callback) {
+//        Executor executor = Executors.newSingleThreadExecutor();
+//        executor.execute(() -> {
+//            File videoPath = createFileFromUri(uri, context, title);
+//            if (videoPath == null || !videoPath.exists()) {
+//                Log.e("VideoCreation", "Failed to create video from Uri");
+//                runOnUiThread(() -> callback.onError(new Exception("Failed to create video from Uri")));
+//                return;
+//            }
+//
+//            Bitmap thumbnailBitmap = createVideoThumbnail(videoPath.getAbsolutePath());
+//            String thumbnailPath = null;
+//            if (thumbnailBitmap != null) {
+//                thumbnailPath = saveThumbnail(context, thumbnailBitmap);
+//            }
+//
+//            String currentDate = new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date());
+//            String publishDate = currentDate;
+//            String viewsCount = "0";
+//            // Generate UUID and convert it to ObjectId
+//            String uuid = UUID.randomUUID().toString();
+//            String objectId = convertUUIDToObjectId(uuid);
+//
+//            User user = usersRepository.getUserLocally(username);
+////            if(user!= null && !user.getImage().startsWith(base64String)){
+////                 userImage = base64String + user.getImage();
+////            } else {
+//                 userImage = user != null ? user.getImage() : null;
+//           // }
+//
+//            String directory = "uploads\\";
+//            String videoEnd = ".mp4";
+//            String addaptVideoPath = directory + title + videoEnd ;
+//            VideoItem videoItem = new VideoItem(
+//                    //UUID.randomUUID().toString(),
+//                    objectId,
+//                    title,
+//                    thumbnailPath,
+//                    user != null ? user.getUsername() : "Anonymous",
+//                    viewsCount,
+//                    publishDate,
+//                    addaptVideoPath,
+//                    userImage,
+//                    user != null ? user.getUsername() : username,
+//                    new ArrayList<>()
+//            );
+//
+//            runOnUiThread(() -> callback.onSuccess(videoItem));
+//        });
+//    }
+
+
     private void createVideoItemFromFile(Context context, String title, Uri uri, VideoItemCreationCallback callback) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
+            // Ensure the directory exists and create the file
             File videoPath = createFileFromUri(uri, context, title);
             if (videoPath == null || !videoPath.exists()) {
                 Log.e("VideoCreation", "Failed to create video from Uri");
@@ -196,39 +295,48 @@ public class UploadVideoActivity extends AppCompatActivity {
                 return;
             }
 
+            // Generate the video thumbnail
             Bitmap thumbnailBitmap = createVideoThumbnail(videoPath.getAbsolutePath());
             String thumbnailPath = null;
             if (thumbnailBitmap != null) {
                 thumbnailPath = saveThumbnail(context, thumbnailBitmap);
             }
 
+            // Generate other metadata
             String currentDate = new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date());
             String publishDate = currentDate;
             String viewsCount = "0";
-            // Generate UUID and convert it to ObjectId
             String uuid = UUID.randomUUID().toString();
             String objectId = convertUUIDToObjectId(uuid);
 
+            // Retrieve user information
             User user = usersRepository.getUserLocally(username);
-            String userImage = user != null ? user.getImage() : null;
+            userImage = user != null ? user.getImage() : null;
 
+            // Adjust the video path with the sanitized title
+            String directory = context.getFilesDir() + File.separator + "uploads" + File.separator;
+            String videoEnd = ".mp4";
+            String adaptedVideoPath = directory + title + videoEnd;
+
+            // Create VideoItem object
             VideoItem videoItem = new VideoItem(
-                    //UUID.randomUUID().toString(),
                     objectId,
                     title,
                     thumbnailPath,
                     user != null ? user.getUsername() : "Anonymous",
                     viewsCount,
                     publishDate,
-                    videoPath.getAbsolutePath(),
+                    adaptedVideoPath,
                     userImage,
                     user != null ? user.getUsername() : username,
                     new ArrayList<>()
             );
 
+            // Pass the result back to the UI thread
             runOnUiThread(() -> callback.onSuccess(videoItem));
         });
     }
+
 
     public interface VideoItemCreationCallback {
         void onSuccess(VideoItem videoItem);
