@@ -115,6 +115,8 @@ public class RecommendedVideoAdapter extends RecyclerView.Adapter<RecommendedVid
             intent.putExtra("username", username);
             intent.putExtra("token", token);
             intent.putExtra("currentUser", currentUser);
+            intent.putExtra("selectedUserName", videoItem.getPublisher());
+            intent.putExtra("selectedUserImage", videoItem.getUserImage());
             context.startActivity(intent);
         });
 
