@@ -41,6 +41,8 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
+
 public class UploadVideoActivity extends AppCompatActivity {
 
     private EditText titleEditText;
@@ -178,6 +180,12 @@ public class UploadVideoActivity extends AppCompatActivity {
         return outputFile;
     }
 
+    // Utility function to convert UUID to ObjectId
+    private String convertUUIDToObjectId(String uuid) {
+        // Remove dashes and take the first 24 characters (a simple, but not ideal, approach)
+        return uuid.replace("-", "").substring(0, 24);
+    }
+
     private void createVideoItemFromFile(Context context, String title, Uri uri, VideoItemCreationCallback callback) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
@@ -197,12 +205,16 @@ public class UploadVideoActivity extends AppCompatActivity {
             String currentDate = new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date());
             String publishDate = currentDate;
             String viewsCount = "0";
+            // Generate UUID and convert it to ObjectId
+            String uuid = UUID.randomUUID().toString();
+            String objectId = convertUUIDToObjectId(uuid);
 
             User user = usersRepository.getUserLocally(username);
             String userImage = user != null ? user.getImage() : null;
 
             VideoItem videoItem = new VideoItem(
-                    UUID.randomUUID().toString(),
+                    //UUID.randomUUID().toString(),
+                    objectId,
                     title,
                     thumbnailPath,
                     user != null ? user.getUsername() : "Anonymous",
