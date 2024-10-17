@@ -19,6 +19,10 @@ YouTube Project is a full-stack video-sharing platform featuring web, Android, a
 ![Screenshot 10](./youtube/public/screanshots/screanshot10.PNG)
 ![Screenshot 12](./youtube/public/screanshots/screanshot12.PNG)
 
+## Videos 
+[WEB](./youtube/public/project_videos/YouTube_Web_project.mp4)
+
+[ANDROID](./youtube/public/project_videos/YouTube_Android_project.mp4)
 
 ## Features
 
