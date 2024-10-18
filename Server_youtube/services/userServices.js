@@ -24,7 +24,7 @@ async function signUp(firstName, lastName, username, password, confirmPassword, 
   const user = new User({firstName, lastName, username, password, image: imageView });
   await user.save();
 
-  return { message: 'User created successfully', user: { firstName, lastName, username, image: imageView } };
+  return { message: 'User created successfully', user: { id: user._id, firstName, lastName, username, image: imageView } };
 }
 
 
