@@ -193,6 +193,56 @@ const deleteVideo = async (videoId) => {
 //     });
 // }
 
+// const net = require('net');
+
+// function notifyCppServer(userId, videoId) {
+//     return new Promise((resolve, reject) => {
+//         const client = new net.Socket();
+//         let videosList = '';  // This will store the list of videos
+
+//         // Connect to the C++ TCP server
+//         client.connect(5555, '127.0.0.1', function() {
+//             console.log('Connected to C++ server');
+//             const message = `${userId} ${videoId}`;
+//             console.log('Sending message to C++ server:', message);
+//             client.write(message); // Send message to C++ server
+//         });
+
+//         // Handle data from the C++ server (e.g., video recommendations)
+//         client.on('data', function(data) {
+//             videosList += data.toString();  // Append received data to the videosList
+//             console.log('Received data chunk from C++ server:', data.toString());  // Log each data chunk
+//         });
+
+//         client.on('end', function() {
+//             console.log('Connection to C++ server closed');
+//             if (videosList) {
+//                 const videoArray = videosList.trim().split(' ');  // Assuming the server separates video IDs by spaces
+
+//                 // Check if the data format is valid
+//                 if (Array.isArray(videoArray) && videoArray.length > 0) {
+//                     resolve(videoArray);  // Resolve with the array of video IDs
+//                 } else {
+//                     reject(new Error('Invalid data format received from C++ server'));
+//                 }
+//             } else {
+//                 reject(new Error('No data received from C++ server'));
+//             }
+//         });
+
+//         client.on('error', function(err) {
+//             console.error('Error connecting to C++ server:', err.message);
+//             reject(err);  // Reject the promise in case of error
+//         });
+
+//         // Optionally handle timeout if the server is unresponsive
+//         client.setTimeout(5000, function() {
+//             console.error('Connection to C++ server timed out');
+//             client.end();  // Gracefully close the connection on timeout
+//             reject(new Error('Connection timed out'));
+//         });
+//     });
+// }
 const net = require('net');
 
 function notifyCppServer(userId, videoId) {
@@ -243,7 +293,6 @@ function notifyCppServer(userId, videoId) {
         });
     });
 }
-
 
 
 const updateViews = async (videoId) => {
