@@ -41,6 +41,19 @@ If you're developing on Windows, you can use WSL with Visual Studio to build and
 
 This flexibility allows you to develop in a Linux-like environment even when working on Windows.
 
+### 3. For macOS
+To ensure proper functionality on macOS, there are a few modifications you need to make when compiling and running the server:
+
+ **Socket Option Changes**:  
+   On macOS, replace the `setsockopt` line for socket options in `main.cpp` as follows:
+
+      ```cpp
+      if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt))) {
+          perror("setsockopt SO_REUSEPORT");
+          exit(EXIT_FAILURE);
+      }
+   These adjustments ensure compatibility with macOS, particularly in handling socket options using SO_REUSEPORT, which is required on this operating system.
+
 ## How to Compile
 
 To compile the project, you need a C++ compiler (e.g., `g++`).
