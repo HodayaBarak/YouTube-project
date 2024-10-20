@@ -47,7 +47,7 @@ To ensure proper functionality on macOS, there are a few modifications you need 
  **Socket Option Changes**:  
    On macOS, replace the `setsockopt` line for socket options in `main.cpp` as follows:
 
-      ```cpp
+     ```cpp
       if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt))) {
           perror("setsockopt SO_REUSEPORT");
           exit(EXIT_FAILURE);
